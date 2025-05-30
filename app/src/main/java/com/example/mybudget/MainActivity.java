@@ -1,5 +1,6 @@
 package com.example.mybudget;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button nameEntryButton;
     private EditText nameEntryEditText;
+    private UserDatabaseHelper userDatabaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +25,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.welcome_page);
 
         mapping();
+        userDatabaseHelper = new UserDatabaseHelper(this);
 
-        nameEntryButton.setOnClickListener(v -> {
-            String text = nameEntryEditText.getText().toString();
-            Toast.makeText(this, "You've enter " + text, Toast.LENGTH_SHORT).show();
-        });
+        checkExistingUser();
 
+        setUpInsertUsername();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -40,5 +41,36 @@ public class MainActivity extends AppCompatActivity {
     public void mapping() {
         this.nameEntryButton = findViewById(R.id.buttonEnterName);
         this.nameEntryEditText = findViewById(R.id.nameEntryEditText);
+    }
+
+    public void setUpInsertUsername() {
+        nameEntryButton.setOnClickListener(v -> {
+            String name = nameEntryEditText.getText().toString().trim();
+            if (!name.isEmpty()) {
+                try {
+                    userDatabaseHelper.insertUsername(name);
+                } catch (Exception e) {
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                intent.putExtra("username", name);
+                startActivity(intent);
+                finish();
+
+            } else {
+                Toast.makeText(this, "Please enter a name", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void checkExistingUser() {
+        String savedName = userDatabaseHelper.getLatestUsername();
+
+        if (savedName != null) {
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            intent.putExtra("username", savedName);
+            startActivity(intent);
+            finish();
+        }
     }
 }
