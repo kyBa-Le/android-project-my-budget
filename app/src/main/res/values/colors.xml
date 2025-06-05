@@ -4,4 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="button_color">#EBEBEB</color>
     <color name="primary_color">#77B890</color>
+    <color name="secondary_yellow">#FFC76E</color>
+    <color name="custom_green">#196950</color>
+    <color name="custom_pink">#FF8F82</color>
 </resources>
