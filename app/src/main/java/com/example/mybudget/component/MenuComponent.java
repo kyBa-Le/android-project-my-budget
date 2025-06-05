@@ -1,11 +1,14 @@
 package com.example.mybudget.component;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.example.mybudget.CategoryActivity;
+import com.example.mybudget.HomeActivity;
 import com.example.mybudget.R;
 
 public class MenuComponent {
@@ -21,10 +24,12 @@ public class MenuComponent {
     private static boolean handleMenuClick(Context context, MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.your_budget) {
-            Toast.makeText(context, "Your budget", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, HomeActivity.class);
+            context.startActivity(intent);
             return true;
         } else if (id == R.id.category) {
-            Toast.makeText(context, "Category", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, CategoryActivity.class);
+            context.startActivity(intent);
             return true;
         } else if (id == R.id.history) {
             Toast.makeText(context, "History", Toast.LENGTH_SHORT).show();

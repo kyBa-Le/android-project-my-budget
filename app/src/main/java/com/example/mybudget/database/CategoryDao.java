@@ -31,4 +31,10 @@ public class CategoryDao {
         cursor.close();
         return categories;
     }
+
+    public void createCategory(String category) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        String sql = "INSERT INTO categories (category) VALUES (?)";
+        db.execSQL(sql, new String[]{category});
+    }
 }
