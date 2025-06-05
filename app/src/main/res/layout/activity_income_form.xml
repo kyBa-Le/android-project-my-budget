@@ -16,7 +16,7 @@
 
     <EditText
         android:layout_marginTop="100dp"
-        android:id="@+id/etAmount"
+        android:id="@+id/editTextAmount"
         android:hint="Amount"
         android:inputType="numberDecimal"
         android:layout_width="match_parent"
@@ -24,14 +24,14 @@
 
     <EditText
         android:layout_marginTop="20dp"
-        android:id="@+id/etDescription"
+        android:id="@+id/editTextDescription"
         android:hint="Description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:layout_marginTop="20dp"
-        android:id="@+id/tvDateTime"
+        android:id="@+id/textViewSelectDate"
         android:text="Select Date and Time"
         android:padding="12dp"
         android:background="#DDD"
@@ -46,7 +46,7 @@
 
     <Button
         android:layout_marginTop="20dp"
-        android:id="@+id/btnSave"
+        android:id="@+id/buttonSave"
         android:text="Save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

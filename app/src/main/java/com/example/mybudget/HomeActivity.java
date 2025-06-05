@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -62,8 +61,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void setUpSpendingButton() {
-        spendingButton.setOnClickListener(v -> {
-            Toast.makeText(this, "You tapped on spending button", Toast.LENGTH_SHORT).show();
-        });
+        spendingButton.setOnClickListener(v -> Toast.makeText(this, "You tapped on spending button", Toast.LENGTH_SHORT).show());
     }
 }

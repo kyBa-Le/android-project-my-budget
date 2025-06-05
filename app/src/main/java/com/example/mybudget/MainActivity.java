@@ -13,12 +13,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.mybudget.database.DatabaseHelper;
+import com.example.mybudget.database.UserDao;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button nameEntryButton;
     private EditText nameEntryEditText;
-    private DatabaseHelper databaseHelper;
+    private UserDao userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.welcome_page);
 
         mapping();
-        databaseHelper = new DatabaseHelper(this);
+        userDao = new UserDao(this);
 
         checkExistingUser();
 
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             String name = nameEntryEditText.getText().toString().trim();
             if (!name.isEmpty()) {
                 try {
-                    databaseHelper.insertUsername(name);
+                    userDao.insertUsername(name);
                 } catch (Exception e) {
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkExistingUser() {
-        String savedName = databaseHelper.getLatestUsername();
+        String savedName = this.userDao.getLatestUsername();
 
         if (savedName != null) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
