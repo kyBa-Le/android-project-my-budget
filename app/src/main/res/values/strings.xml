@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">MyBudget</string>
-    <string name="menu_description" >MenuItem</string>
+    <string name="menu_description">MenuItem</string>
 </resources>

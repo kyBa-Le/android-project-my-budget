@@ -1,11 +1,11 @@
-package com.example.mybudget;
+package com.example.mybudget.database;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class UserDatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "UserDB.db";
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_NAME = "users";
@@ -13,7 +13,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USERNAME = "username";
 
 
-    public UserDatabaseHelper(Context context) {
+    public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

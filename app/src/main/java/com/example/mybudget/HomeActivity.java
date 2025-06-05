@@ -1,5 +1,6 @@
 package com.example.mybudget;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +10,9 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.mybudget.component.MenuComponent;
 
@@ -32,6 +36,13 @@ public class HomeActivity extends AppCompatActivity {
 
         setUpIncomeButton();
         setUpSpendingButton();
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPaddingRelative(20, systemBars.top, 20, systemBars.bottom);
+            return insets;
+        });
+
     }
 
     private void mapping() {
@@ -45,7 +56,8 @@ public class HomeActivity extends AppCompatActivity {
 
     public void setUpIncomeButton() {
         incomeButton.setOnClickListener(v -> {
-            Toast.makeText(this, "You tapped on income button", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(HomeActivity.this, IncomeFormActivity.class);
+            startActivity(intent);
         });
     }
 
