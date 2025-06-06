@@ -34,13 +34,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_CATEGORIES_TABLE = "CREATE TABLE " + TABLE_CATEGORY + "( id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT)";
         db.execSQL(CREATE_CATEGORIES_TABLE);
 
-        db.execSQL("INSERT INTO " + TABLE_CATEGORY + " (category) VALUES ('Food')");
+        db.execSQL("INSERT INTO " + TABLE_CATEGORY + " (category) VALUES ('Salary')");
         db.execSQL("INSERT INTO " + TABLE_CATEGORY + " (category) VALUES ('Transport')");
         db.execSQL("INSERT INTO " + TABLE_CATEGORY + " (category) VALUES ('Shopping')");
+        db.execSQL("INSERT INTO " + TABLE_CATEGORY + " (category) VALUES ('Food')");
     }
 
     private void initializeTransactionTable(SQLiteDatabase db) {
-        String CREATE_TRANSACTIONS_TABLE = "CREATE TABLE transactions (" +
+        String CREATE_TRANSACTIONS_TABLE = "CREATE TABLE " + TABLE_TRANSACTION + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "amount REAL NOT NULL, " +
                 "category_id INTEGER NOT NULL, " +
