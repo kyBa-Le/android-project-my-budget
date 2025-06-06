@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -14,12 +14,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.mybudget.component.MenuComponent;
+import com.example.mybudget.database.BudgetSharedPreference;
+import com.example.mybudget.util.MoneyFormatter;
 
 public class HomeActivity extends AppCompatActivity {
     TextView usernameTextView;
     ImageView menuIcon;
     EditText totalBudgetEditText, expectedBudgetEditText;
     Button incomeButton, spendingButton;
+    private BudgetSharedPreference budgetSharedPreference;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,10 @@ public class HomeActivity extends AppCompatActivity {
         String username = getIntent().getStringExtra("username");
         usernameTextView.setText(username);
 
+        budgetSharedPreference = BudgetSharedPreference.getInstance(this);
+        totalBudgetEditText.setText(MoneyFormatter.formatVND(budgetSharedPreference.getTotalBudget()));
+        expectedBudgetEditText.setText(MoneyFormatter.formatVND(budgetSharedPreference.getExpectedBudget()));
+
         setUpIncomeButton();
         setUpSpendingButton();
 
@@ -42,6 +49,13 @@ public class HomeActivity extends AppCompatActivity {
             return insets;
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        long updatedBudget = this.budgetSharedPreference.getTotalBudget();
+        totalBudgetEditText.setText(MoneyFormatter.formatVND(updatedBudget));
     }
 
     private void mapping() {
@@ -55,12 +69,17 @@ public class HomeActivity extends AppCompatActivity {
 
     public void setUpIncomeButton() {
         incomeButton.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, IncomeFormActivity.class);
+            Intent intent = new Intent(HomeActivity.this, ExpenditureFormActivity.class);
+            intent.putExtra("type", "income");
             startActivity(intent);
         });
     }
 
     public void setUpSpendingButton() {
-        spendingButton.setOnClickListener(v -> Toast.makeText(this, "You tapped on spending button", Toast.LENGTH_SHORT).show());
+        spendingButton.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ExpenditureFormActivity.class);
+            intent.putExtra("type", "spending");
+            startActivity(intent);
+        });
     }
 }

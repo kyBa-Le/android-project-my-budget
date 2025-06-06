@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -17,6 +16,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.mybudget.database.BudgetSharedPreference;
 import com.example.mybudget.database.CategoryDao;
 import com.example.mybudget.database.TransactionDao;
 import com.example.mybudget.entity.Category;
@@ -26,12 +26,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class IncomeFormActivity extends AppCompatActivity {
+public class ExpenditureFormActivity extends AppCompatActivity {
 
     EditText amountEditText, descriptionEditText;
-    TextView dateTextView;
+    TextView dateTextView, title;
     Spinner categorySpinner;
     Button buttonSave;
+    String type;
 
     private CategoryDao categoryDao;
     private TransactionDao transactionDao;
@@ -42,9 +43,13 @@ public class IncomeFormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_income_form);
+        setContentView(R.layout.activity_expenditure_form);
 
         mapping();
+
+        type = getIntent().getStringExtra("type");
+        assert type != null;
+        title.setText(type.equals("income") ? "Enter your income" : "Enter your spending");
 
         categoryDao = new CategoryDao(this);
         transactionDao = new TransactionDao(this);
@@ -67,6 +72,7 @@ public class IncomeFormActivity extends AppCompatActivity {
         dateTextView = findViewById(R.id.textViewSelectDate);
         categorySpinner = findViewById(R.id.spinnerCategory);
         buttonSave = findViewById(R.id.buttonSave);
+        title = findViewById(R.id.expenditureFormTitle);
     }
 
     public void createCategorySpinner() {
@@ -98,7 +104,8 @@ public class IncomeFormActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(this, selectedDateTime, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "New income saved", Toast.LENGTH_SHORT).show();
+            finish();
         });
     }
 
@@ -107,7 +114,15 @@ public class IncomeFormActivity extends AppCompatActivity {
         String description = descriptionEditText.getText().toString();
         Category category = (Category) categorySpinner.getSelectedItem();
         String date = dateTextView.getText().toString();
-        transactionDao.createTransaction(amount, category.getId(), "income", description, date);
+
+        transactionDao.createTransaction(amount, category.getId(), type, description, date);
+
+        BudgetSharedPreference budgetSharedPreference = BudgetSharedPreference.getInstance(this);
+        if (type.equals("income")) {
+            budgetSharedPreference.saveTotalBudget(budgetSharedPreference.getTotalBudget() + amount);
+        } else {
+            budgetSharedPreference.saveTotalBudget(budgetSharedPreference.getTotalBudget() - amount);
+        }
     }
 
 }

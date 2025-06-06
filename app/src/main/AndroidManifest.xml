@@ -16,7 +16,7 @@
             android:name=".CategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".IncomeFormActivity"
+            android:name=".ExpenditureFormActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

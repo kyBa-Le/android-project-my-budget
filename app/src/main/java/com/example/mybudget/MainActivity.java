@@ -11,8 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
-import com.example.mybudget.database.DatabaseHelper;
+import com.example.mybudget.database.BudgetSharedPreference;
 import com.example.mybudget.database.UserDao;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private Button nameEntryButton;
     private EditText nameEntryEditText;
     private UserDao userDao;
+    private BudgetSharedPreference budgetSharedPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
         mapping();
         userDao = new UserDao(this);
+        budgetSharedPreference = BudgetSharedPreference.getInstance(this);
+
 
         checkExistingUser();
 
@@ -74,6 +76,13 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("username", savedName);
             startActivity(intent);
             finish();
+        } else {
+            initializeBudget();
         }
+    }
+
+    public void initializeBudget() {
+        budgetSharedPreference.saveTotalBudget(0);
+        budgetSharedPreference.saveExpectedBudget(0);
     }
 }
