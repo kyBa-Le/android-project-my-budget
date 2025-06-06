@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.Toast;
-
 import com.example.mybudget.CategoryActivity;
+import com.example.mybudget.HistoryActivity;
 import com.example.mybudget.HomeActivity;
 import com.example.mybudget.R;
 
@@ -32,7 +31,8 @@ public class MenuComponent {
             context.startActivity(intent);
             return true;
         } else if (id == R.id.history) {
-            Toast.makeText(context, "History", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, HistoryActivity.class);
+            context.startActivity(intent);
             return true;
         } else {
             return false;

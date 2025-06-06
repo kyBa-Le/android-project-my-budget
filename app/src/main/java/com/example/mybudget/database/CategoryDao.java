@@ -37,4 +37,18 @@ public class CategoryDao {
         String sql = "INSERT INTO categories (category) VALUES (?)";
         db.execSQL(sql, new String[]{category});
     }
+
+    public Category getCategoryById(int categoryId) {
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        String[] columns = {"id", "category"};
+        String query = "SELECT * FROM categories WHERE id = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(categoryId)});
+        if (cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+            String category = cursor.getString(cursor.getColumnIndexOrThrow("category"));
+            return new Category(category, id);
+        } else {
+            return null;
+        }
+    }
 }

@@ -7,4 +7,8 @@
     <color name="secondary_yellow">#FFC76E</color>
     <color name="custom_green">#196950</color>
     <color name="custom_pink">#FF8F82</color>
+    <color name="text_color_pink">#AF6365</color>
+    <color name="text_color_purple">#6E49DF</color>
+    <color name="history_item_color_spending">#D3ADCC</color>
+    <color name="history_item_color_income">#ADD3C3</color>
 </resources>

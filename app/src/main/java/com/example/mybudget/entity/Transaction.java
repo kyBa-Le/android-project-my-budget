@@ -5,7 +5,7 @@ public class Transaction {
     private long amount;
     private int category_id;
     private String type;
-    private String text;
+    private String description;
     private String date;
 
     public Transaction() {
@@ -15,13 +15,13 @@ public class Transaction {
                        long amount,
                        int category_id,
                        String type,
-                       String text,
+                       String description,
                        String date) {
         this.id = id;
         this.amount = amount;
         this.category_id = category_id;
         this.type = type;
-        this.text = text;
+        this.description = description;
         this.date = date;
     }
 
@@ -57,12 +57,12 @@ public class Transaction {
         this.type = type;
     }
 
-    public String getText() {
-        return text;
+    public String getDescription() {
+        return description;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDate() {
