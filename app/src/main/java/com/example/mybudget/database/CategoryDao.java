@@ -1,5 +1,6 @@
 package com.example.mybudget.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -50,5 +51,19 @@ public class CategoryDao {
         } else {
             return null;
         }
+    }
+
+    public void updateCategory(Category category) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("category", category.getCategory());
+        db.update("categories", values, "id = ?", new String[]{String.valueOf(category.getId())});
+        db.close();
+    }
+
+    public void deleteCategory(int id) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        db.delete("categories", "id = ?", new String[]{String.valueOf(id)});
+        db.close();
     }
 }

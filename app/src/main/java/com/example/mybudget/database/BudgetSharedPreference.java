@@ -41,4 +41,8 @@ public class BudgetSharedPreference {
         return this.sharedPreferences.getLong(KEY_EXPECTED_BUDGET, 0);
     }
 
+    public void setExpectedBudget(long expectedBudget) {
+        this.sharedPreferences.edit().putLong(KEY_EXPECTED_BUDGET, expectedBudget).apply();
+    }
+
 }

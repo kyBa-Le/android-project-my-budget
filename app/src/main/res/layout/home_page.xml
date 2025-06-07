@@ -127,7 +127,10 @@
                 android:id="@+id/expectedBudgetEditText"
                 android:textColor="@color/secondary_yellow"
                 android:textSize="24sp"
-                android:enabled="false"
+                android:enabled="true"
+                android:inputType="none"
+                android:focusable="false"
+                android:clickable="true"
                 android:text="200.000 VND"/>
 
         </LinearLayout>

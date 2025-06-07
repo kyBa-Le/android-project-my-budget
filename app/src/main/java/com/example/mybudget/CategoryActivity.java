@@ -46,6 +46,7 @@ public class CategoryActivity extends AppCompatActivity {
         getAllCategories();
 
         setupAddCategoryButton();
+        setupCategoryLongClick();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -98,4 +99,66 @@ public class CategoryActivity extends AppCompatActivity {
 
 
     }
+
+    private void setupCategoryLongClick() {
+        categoryListView.setOnItemLongClickListener((parent, view, position, id) -> {
+            Category selectedCategory = categoryList.get(position);
+            showEditOrDeleteDialog(selectedCategory);
+            return true;
+        });
+    }
+
+    private void showEditOrDeleteDialog(Category category) {
+        String[] options = {"Update", "Delete"};
+
+        new AlertDialog.Builder(this)
+                .setTitle("Select for \"" + category.getCategory() + "\"")
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        showEditCategoryDialog(category);
+                    } else if (which == 1) {
+                        showDeleteConfirmDialog(category);
+                    }
+                })
+                .show();
+    }
+
+    private void showEditCategoryDialog(Category category) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.dialog_input_category, null);
+
+        EditText editText = dialogView.findViewById(R.id.editTextAddCategory);
+        editText.setText(category.getCategory());
+
+        new AlertDialog.Builder(this)
+                .setTitle("Edit category")
+                .setView(dialogView)
+                .setPositiveButton("Save", (dialog, which) -> {
+                    String newName = editText.getText().toString().trim();
+                    if (!newName.isEmpty()) {
+                        category.setCategory(newName);
+                        categoryDao.updateCategory(category);
+                        getAllCategories();
+                        Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void showDeleteConfirmDialog(Category category) {
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm delete")
+                .setMessage("Would you like to delete category \"" + category.getCategory() + "\" ?")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    categoryDao.deleteCategory(category.getId()); // Cần có hàm này
+                    getAllCategories();
+                    Toast.makeText(this, "Category deleted", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+
+
 }

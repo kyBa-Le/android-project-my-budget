@@ -1,13 +1,16 @@
 package com.example.mybudget;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -42,6 +45,7 @@ public class HomeActivity extends AppCompatActivity {
 
         setUpIncomeButton();
         setUpSpendingButton();
+        setupExpectedInput();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -56,6 +60,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
         long updatedBudget = this.budgetSharedPreference.getTotalBudget();
         totalBudgetEditText.setText(MoneyFormatter.formatVND(updatedBudget));
+
+        long updatedExpectedBudget = this.budgetSharedPreference.getExpectedBudget();
+        expectedBudgetEditText.setText(MoneyFormatter.formatVND(updatedExpectedBudget));
     }
 
     private void mapping() {
@@ -80,6 +87,34 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(HomeActivity.this, ExpenditureFormActivity.class);
             intent.putExtra("type", "spending");
             startActivity(intent);
+        });
+    }
+
+
+    public void setupExpectedInput() {
+        expectedBudgetEditText.setOnClickListener(v -> {
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_input_expected_budget, null);
+            EditText expectedBudgetEditTextDialog = dialogView.findViewById(R.id.expectedBudgetEditTextDialog);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(dialogView);
+
+            builder.setPositiveButton("SAVE", (dialog, which) -> {
+                String expectedBudgetText = expectedBudgetEditTextDialog.getText().toString();
+                if (!expectedBudgetText.isEmpty()) {
+                    long expectedBudget = Long.parseLong(expectedBudgetText);
+                    budgetSharedPreference.setExpectedBudget(expectedBudget);
+                    expectedBudgetEditText.setText(MoneyFormatter.formatVND(expectedBudget));
+                }
+
+            });
+
+            builder.setNegativeButton("CANCEL", (dialog, which) -> {
+                dialog.dismiss();
+            });
+
+            Dialog dialog = builder.create();
+            dialog.show();
         });
     }
 }
