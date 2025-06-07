@@ -1,10 +1,14 @@
 package com.example.mybudget.component;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+
+import androidx.appcompat.app.AlertDialog;
+
 import com.example.mybudget.CategoryActivity;
 import com.example.mybudget.HistoryActivity;
 import com.example.mybudget.HomeActivity;
@@ -33,6 +37,20 @@ public class MenuComponent {
         } else if (id == R.id.history) {
             Intent intent = new Intent(context, HistoryActivity.class);
             context.startActivity(intent);
+            return true;
+        } else if (id == R.id.close) {
+            if (context instanceof Activity) {
+                Activity activity = (Activity) context;
+
+                new AlertDialog.Builder(context)
+                        .setTitle("Exit App")
+                        .setMessage("Are you sure you want to exit?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            activity.finishAffinity(); // Close all activities
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
             return true;
         } else {
             return false;
